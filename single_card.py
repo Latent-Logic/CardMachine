@@ -49,8 +49,8 @@ def SaveCardToImgur(image_object, title=None, desc=None):
         headers={'Authorization': 'Client-ID %s' % imgur_auth.CLIENT_ID},
         data={
             'key': imgur_auth.CLIENT_SECRET,
-            'title': base64.b64decode(title) if title else 'Card generated with TSSSF Card Generator',
-            'description': base64.b64decode(desc) if desc else '',
+            'title': title or 'Card generated with TSSSF Card Generator',
+            'description': desc or '',
             'type': 'base64',
             'image': fileobj.getvalue().encode("base64")
         }
@@ -116,15 +116,20 @@ if __name__ == '__main__':
 
     try:
         CARD_LINE = base64.b64decode(args.card_line).decode('utf-8')
+        IMGURTITLE = args.imgurtitle
+        if IMGURTITLE is not None:
+            IMGURTITLE = base64.b64decode(IMGURTITLE)
+        IMGURDESC = args.imgurdesc
+        if IMGURDESC is not None:
+            IMGURDESC = base64.b64decode(IMGURDESC)
     except Exception:
         print(traceback.format_exc())
-        print("Failed decode base64 line %r" % args.card_line)
+        print("Failed to base64 decode a string")
         sys.exit(1)
     OUTPUT = ""
     try:
         OUTPUT = make_single_card(CARD_LINE, args.output, args.imagetype,
-                                  args.returntype, args.imgurtitle,
-                                  args.imgurdesc)
+                                  args.returntype, IMGURTITLE, IMGURDESC)
     except Exception:
         print(traceback.format_exc())
         print("Failed to build single card %r" % CARD_LINE)
