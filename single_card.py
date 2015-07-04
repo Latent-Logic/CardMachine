@@ -71,13 +71,12 @@ def SaveCard(image, save_type, location=None, imgurtitle=None, imgurdesc=None):
     return retval
 
 
-def make_single_card(encoded_line, output_file, image_type, save_type,
+def make_single_card(card_line, output_file, image_type, save_type,
                      imgurtitle, imgurdesc):
     im = {}
     retstr = ""
 
     try:
-        card_line = base64.b64decode(encoded_line).decode('utf-8')
         print("Attempting to build card %r" % card_line)
         (im["bleed"],
          im["cropped"],
@@ -122,7 +121,13 @@ if __name__ == '__main__':
     if args.returntype == "file" and args.output is None:
         parser.error("--output must be defined if --returntype is set to file")
 
-    print >> ACTUAL_STDOUT, make_single_card(args.card_line, args.output,
+    try:
+        CARD_LINE = base64.b64decode(args.card_line).decode('utf-8')
+    except Exception:
+        print(traceback.format_exc())
+        print("Failed decode base64 line %r" % args.card_line)
+        sys.exit(1)
+    print >> ACTUAL_STDOUT, make_single_card(CARD_LINE, args.output,
                                              args.imagetype, args.returntype,
                                              args.imgurtitle, args.imgurdesc)
     print("Success!")
