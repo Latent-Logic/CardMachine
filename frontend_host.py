@@ -2,7 +2,8 @@
 '''
 Flask host web generator.
 '''
-from flask import Flask, request, send_from_directory, jsonify
+import os
+from flask import Flask, request, render_template, send_from_directory, jsonify
 from single_card import make_single_card
 
 app = Flask(__name__)
@@ -77,8 +78,35 @@ def ponyimage_glue(path):
     print str(out_json)[:79]
     return jsonify(out_json)
 
+
+def make_tree(path):
+    """Create dict of files in path.
+    Modified from https://gist.github.com/andik/e86a7007c2af97e50fbb """
+    tree = dict(name=path, children=[])
+    try:
+        lst = os.listdir(path)
+    except OSError:
+        pass  # ignore errors
+    else:
+        for name in lst:
+            fname = os.path.join(path, name)
+            if os.path.isdir(fname):
+                tree['children'].append(make_tree(fname))
+            elif name[0] != '.':
+                tree['children'].append(dict(name=fname))
+    return tree
+
+
+@app.route('/images/')
+def list_images():
+    if not os.path.isdir('images/'):
+        return "Please create the images/ folder in this checkout"
+    return render_template('dirtree.html', tree=make_tree('images/'),
+                           url_root=request.url_root)
+
+
 @app.route('/images/<path:filename>')
-def raw_images(filename):
+def serve_images(filename):
     return send_from_directory('images/', filename)
 
 
