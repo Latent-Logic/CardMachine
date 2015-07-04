@@ -1,3 +1,6 @@
 [submodule "TSSSF/resources"]
 	path = TSSSF/resources
 	url = https://github.com/coandco/TSSSFTemplates.git
+[submodule "TSSSF/frontend"]
+	path = TSSSF/frontend
+	url = https://github.com/coandco/TSSSF-Frontend.git

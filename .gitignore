@@ -107,6 +107,8 @@ BaBOC/
 TSSSF/
 WSotT/
 
+images/
+
 # Key-containing config
 # =========================
 imgur_auth.py

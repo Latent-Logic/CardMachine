@@ -1,5 +1,10 @@
 (README is currently under construction)
 
+__Standalone setup instructions__
+ 1. Setup and activate a python virtualenv if desired
+ 2. Install `pip install requests Pillow flask gunicorn`
+ 3. Run `gunicorn -w 2 frontend_host:app`
+
 This script assumes that the TSSSFCabin-Medium font is used, with special changes as described below:
 
 TSSSFCabin-Medium is a specialized variant on Cabin that has the symbols for different pony-related icons replacing some unicode characters. The list below covers the unicode characters that have been replaced, as well as certain {keyword}s that will trigger the change to the unicode character in the script. (See the cards_example.pon file)
