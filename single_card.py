@@ -74,21 +74,14 @@ def SaveCard(image, save_type, location=None, imgurtitle=None, imgurdesc=None):
 def make_single_card(card_line, output_file, image_type, save_type,
                      imgurtitle, imgurdesc):
     im = {}
-    retstr = ""
 
-    try:
-        print("Attempting to build card %r" % card_line)
-        (im["bleed"],
-         im["cropped"],
-         im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
+    print("Attempting to build card %r" % card_line)
+    (im["bleed"],
+     im["cropped"],
+     im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
 
-        retstr = SaveCard(im[image_type], save_type, output_file, imgurtitle,
-                          imgurdesc)
-    except Exception:
-        print(traceback.format_exc())
-        print("Failed to build single card %r" % card_line)
-        sys.exit(1)
-    return retstr
+    return SaveCard(im[image_type], save_type, output_file, imgurtitle,
+                    imgurdesc)
 
 if __name__ == '__main__':
     ACTUAL_STDOUT = sys.stdout
@@ -127,8 +120,15 @@ if __name__ == '__main__':
         print(traceback.format_exc())
         print("Failed decode base64 line %r" % args.card_line)
         sys.exit(1)
-    print >> ACTUAL_STDOUT, make_single_card(CARD_LINE, args.output,
-                                             args.imagetype, args.returntype,
-                                             args.imgurtitle, args.imgurdesc)
+    OUTPUT = ""
+    try:
+        OUTPUT = make_single_card(CARD_LINE, args.output, args.imagetype,
+                                  args.returntype, args.imgurtitle,
+                                  args.imgurdesc)
+    except Exception:
+        print(traceback.format_exc())
+        print("Failed to build single card %r" % CARD_LINE)
+        sys.exit(1)
+    print >> ACTUAL_STDOUT, OUTPUT
     print("Success!")
     sys.exit(0)
