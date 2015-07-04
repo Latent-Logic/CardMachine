@@ -69,7 +69,7 @@ def ponyimage_glue(path):
                                None, None)
     print ret_val[:64]
     if returntype == 'file':
-        out_json['image'] = request.urlroot + ret_val
+        out_json['image'] = request.url_root + ret_val
     elif returntype == 'encoded_url':
         out_json['image'] = ret_val
     out_json['card_str'] = pycard
