@@ -3,4 +3,4 @@
 	url = https://github.com/coandco/TSSSFTemplates.git
 [submodule "TSSSF/frontend"]
 	path = TSSSF/frontend
-	url = https://github.com/coandco/TSSSF-Frontend.git
+	url = https://github.com/Latent-Logic/TSSSF-Frontend.git
