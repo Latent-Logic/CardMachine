@@ -1,9 +1,11 @@
 (README is currently under construction)
 
 __Standalone setup instructions__
- 1. Setup and activate a python virtualenv if desired
- 2. Install `pip install requests Pillow flask gunicorn`
- 3. Run `gunicorn -w 2 frontend_host:app`
+ 1. Pull in submodules `git submodule init` and `git submodule update`
+ 2. Setup and activate a virtualenv if desired `virtualenv env` and `source env/bin/activate`
+ 3. Install `pip install requests Pillow gunicorn flask`
+ 4. Run `gunicorn -w 2 frontend_host:app`
+ 5. Open http://127.0.0.1:8000 in web browser
 
 This script assumes that the TSSSFCabin-Medium font is used, with special changes as described below:
 
