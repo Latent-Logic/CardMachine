@@ -74,6 +74,7 @@ def SaveCard(image, save_type, location=None, imgurtitle=None, imgurdesc=None):
 def make_single_card(encoded_line, output_file, image_type, save_type,
                      imgurtitle, imgurdesc):
     im = {}
+    retstr = ""
 
     try:
         card_line = base64.b64decode(encoded_line).decode('utf-8')
@@ -82,15 +83,13 @@ def make_single_card(encoded_line, output_file, image_type, save_type,
          im["cropped"],
          im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
 
-        outstr = SaveCard(im[image_type], save_type, output_file, imgurtitle,
+        retstr = SaveCard(im[image_type], save_type, output_file, imgurtitle,
                           imgurdesc)
-        print >> ACTUAL_STDOUT, outstr
     except Exception:
         print(traceback.format_exc())
         print("Failed to build single card %r" % card_line)
         sys.exit(1)
-    print("Success!")
-    sys.exit(0)
+    return retstr
 
 if __name__ == '__main__':
     ACTUAL_STDOUT = sys.stdout
@@ -123,5 +122,8 @@ if __name__ == '__main__':
     if args.returntype == "file" and args.output is None:
         parser.error("--output must be defined if --returntype is set to file")
 
-    make_single_card(args.card_line, args.output, args.imagetype,
-                     args.returntype, args.imgurtitle, args.imgurdesc)
+    print >> ACTUAL_STDOUT, make_single_card(args.card_line, args.output,
+                                             args.imagetype, args.returntype,
+                                             args.imgurtitle, args.imgurdesc)
+    print("Success!")
+    sys.exit(0)
