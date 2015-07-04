@@ -49,8 +49,8 @@ def SaveCardToImgur(image_object, title=None, desc=None):
         headers={'Authorization': 'Client-ID %s' % imgur_auth.CLIENT_ID},
         data={
             'key': imgur_auth.CLIENT_SECRET,
-            'title': base64.b64decode(title) if title else 'Card generated with TSSSF Card Generator',
-            'description': base64.b64decode(desc) if desc else '',
+            'title': title or 'Card generated with TSSSF Card Generator',
+            'description': desc or '',
             'type': 'base64',
             'image': fileobj.getvalue().encode("base64")
         }
@@ -71,26 +71,17 @@ def SaveCard(image, save_type, location=None, imgurtitle=None, imgurdesc=None):
     return retval
 
 
-def make_single_card(encoded_line, output_file, image_type, save_type,
+def make_single_card(card_line, output_file, image_type, save_type,
                      imgurtitle, imgurdesc):
     im = {}
 
-    try:
-        card_line = base64.b64decode(encoded_line).decode('utf-8')
-        print("Attempting to build card %r" % card_line)
-        (im["bleed"],
-         im["cropped"],
-         im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
+    print("Attempting to build card %r" % card_line)
+    (im["bleed"],
+     im["cropped"],
+     im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
 
-        outstr = SaveCard(im[image_type], save_type, output_file, imgurtitle,
-                          imgurdesc)
-        print >> ACTUAL_STDOUT, outstr
-    except Exception:
-        print(traceback.format_exc())
-        print("Failed to build single card %r" % card_line)
-        sys.exit(1)
-    print("Success!")
-    sys.exit(0)
+    return SaveCard(im[image_type], save_type, output_file, imgurtitle,
+                    imgurdesc)
 
 if __name__ == '__main__':
     ACTUAL_STDOUT = sys.stdout
@@ -123,5 +114,26 @@ if __name__ == '__main__':
     if args.returntype == "file" and args.output is None:
         parser.error("--output must be defined if --returntype is set to file")
 
-    make_single_card(args.card_line, args.output, args.imagetype,
-                     args.returntype, args.imgurtitle, args.imgurdesc)
+    try:
+        CARD_LINE = base64.b64decode(args.card_line).decode('utf-8')
+        IMGURTITLE = args.imgurtitle
+        if IMGURTITLE is not None:
+            IMGURTITLE = base64.b64decode(IMGURTITLE)
+        IMGURDESC = args.imgurdesc
+        if IMGURDESC is not None:
+            IMGURDESC = base64.b64decode(IMGURDESC)
+    except Exception:
+        print(traceback.format_exc())
+        print("Failed to base64 decode a string")
+        sys.exit(1)
+    OUTPUT = ""
+    try:
+        OUTPUT = make_single_card(CARD_LINE, args.output, args.imagetype,
+                                  args.returntype, IMGURTITLE, IMGURDESC)
+    except Exception:
+        print(traceback.format_exc())
+        print("Failed to build single card %r" % CARD_LINE)
+        sys.exit(1)
+    print >> ACTUAL_STDOUT, OUTPUT
+    print("Success!")
+    sys.exit(0)
