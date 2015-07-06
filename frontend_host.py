@@ -79,30 +79,32 @@ def ponyimage_glue(path):
     return jsonify(out_json)
 
 
-def make_tree(path):
-    """Create dict of files in path.
-    Modified from https://gist.github.com/andik/e86a7007c2af97e50fbb """
-    tree = dict(name=path, children=[])
-    try:
-        lst = os.listdir(path)
-    except OSError:
-        pass  # ignore errors
-    else:
-        for name in lst:
-            fname = os.path.join(path, name)
-            if os.path.isdir(fname):
-                tree['children'].append(make_tree(fname))
-            elif name[0] != '.':
-                tree['children'].append(dict(name=fname))
-    return tree
+def list_files(path):
+    """Create dict of files in path."""
+    path = os.path.normpath(path)
+    path_len = None
+    flist = list()
+    for root, _, files in os.walk(path):
+        if path_len is None:
+            path_len = len(root) + 1  # Account for the '/'
+            flist.extend([fname for fname in files
+                          if not fname.startswith('.')])
+        else:
+            flist.extend([os.path.join(root[path_len:], fname) for fname
+                          in files if not fname.startswith('.')])
+    return flist
 
 
 @app.route('/images/')
 def list_images():
-    if not os.path.isdir('images/'):
-        return "Please create the images/ folder in this checkout"
-    return render_template('dirtree.html', tree=make_tree('images/'),
-                           url_root=request.url_root)
+    folder = 'images/'
+    if not os.path.isdir(folder):
+        return "Please create the %s folder in this checkout" % folder
+    file_list = list_files(folder)
+    if request.args.get('format') == 'json':
+        return jsonify({'base_url': request.base_url, 'files': file_list})
+    return render_template('dirtree.html', dirname=folder, flist=file_list,
+                           base_url=request.base_url)
 
 
 @app.route('/images/<path:filename>')

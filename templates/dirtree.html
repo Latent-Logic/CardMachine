@@ -1,12 +1,12 @@
 <!doctype html>
-<title>/{{ tree.name }}</title>
-<h1>{{ tree.name }}</h1>
+<head>
+<title>/{{ dirname }}</title>
+</head>
+<body>
+<h1>{{ dirname }}</h1>
 <ul style="list-style-type:none">
-{%- for item in tree.children recursive %}
-    {%- if item.children -%}
-        {{ loop(item.children) }}
-    {%- else -%}
-        <li><a href="{{ url_root }}{{ item.name }}">{{ item.name }}</a></li>
-    {%- endif %}
+{%- for item in flist %}
+    <li><a href="{{ base_url }}{{ item }}">{{ item }}</a></li>
 {%- endfor %}
 </ul>
+</body>
