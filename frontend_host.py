@@ -4,7 +4,7 @@ Flask host web generator.
 '''
 import os
 from flask import Flask, request, render_template, send_from_directory, jsonify
-from single_card import make_single_card
+from single_card import make_single_card, make_single_card_write_all_types
 
 app = Flask(__name__)
 DEBUG = True
@@ -61,15 +61,16 @@ def ponyimage_glue(path):
         raise InvalidAPIUsage("No pycard string found", in_json)
     #Second argument is filename
     filename = None
-    if returntype == 'file':
-        filename = "images/{}.png" % imagetype
-    elif returntype != 'encoded_url':
+    if returntype == 'files':
+        ret_val = make_single_card_write_all_types(pycard, "images/")
+    elif returntype == 'encoded_url':
+        ret_val = make_single_card(pycard, filename, imagetype, returntype,
+                                   None, None)
+    else:
         raise InvalidAPIUsage("This backend doesn't support this returntype",
                               returntype)
-    ret_val = make_single_card(pycard, filename, imagetype, returntype,
-                               None, None)
     print ret_val[:64]
-    if returntype == 'file':
+    if returntype == 'files':
         out_json['image'] = request.url_root + ret_val
     elif returntype == 'encoded_url':
         out_json['image'] = ret_val

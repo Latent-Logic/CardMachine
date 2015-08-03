@@ -12,6 +12,7 @@ import TSSSF_CardGen
 import json
 import imgur_auth
 import re
+import os
 from StringIO import StringIO
 
 
@@ -82,6 +83,22 @@ def make_single_card(card_line, output_file, image_type, save_type,
 
     return SaveCard(im[image_type], save_type, output_file, imgurtitle,
                     imgurdesc)
+
+def make_single_card_write_all_types(card_line, output_path):
+    im = {}
+
+    print("mscwat: Attempting to build card %r" % card_line)
+    (im["bleed"],
+     im["cropped"],
+     im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
+
+    im["bleed"].save(os.path.join(output_path, 'bleed.png'), format="PNG",
+                     dpi=(300, 300))
+    im["cropped"].save(os.path.join(output_path, 'cropped.png'), format="PNG",
+                       dpi=(300, 300))
+    im["vassal"].save(os.path.join(output_path, 'vassal.png'), format="PNG",
+                      dpi=(300, 300))
+    return output_path
 
 if __name__ == '__main__':
     ACTUAL_STDOUT = sys.stdout
