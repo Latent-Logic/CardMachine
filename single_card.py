@@ -92,12 +92,10 @@ def make_single_card_write_all_types(card_line, output_path):
      im["cropped"],
      im["vassal"]) = TSSSF_CardGen.BuildSingleCard(card_line)
 
-    im["bleed"].save(os.path.join(output_path, 'bleed.png'), format="PNG",
-                     dpi=(300, 300))
-    im["cropped"].save(os.path.join(output_path, 'cropped.png'), format="PNG",
-                       dpi=(300, 300))
-    im["vassal"].save(os.path.join(output_path, 'vassal.png'), format="PNG",
-                      dpi=(300, 300))
+    for key in im:
+        file_path = os.path.join(output_path, ".".join([key,"png"]))
+        im[key].save(file_path, format="PNG", dpi=(300, 300))
+
     return output_path
 
 if __name__ == '__main__':
