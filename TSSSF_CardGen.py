@@ -464,6 +464,7 @@ def FlavorText(image, text, color):
         halign = "center",
         leading_offset=+1,
         max_width = textmaxwidth,
+        padline=True,
         )
 
 def AddExpansion(image, expansion):
