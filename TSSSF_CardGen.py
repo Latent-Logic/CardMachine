@@ -1,7 +1,7 @@
 import os, glob, shutil, traceback, random
 import PIL_Helper
 
-TYPE, PICTURE, SYMBOLS, TITLE, KEYWORDS, BODY, FLAVOR, EXPANSION, CLIENT = range(9)
+TYPE, PICTURE, SYMBOLS, TITLE, KEYWORDS, BODY, FLAVOR, EXPANSION, COPYRIGHT = range(9)
 DIRECTORY = "TSSSF"
 ARTIST = "Pixel Prism"
 
@@ -493,15 +493,18 @@ def CopyrightText(card, image, color, artist):
     if type(card).__name__ == 'dict':
         client = card.get('client')
     else:
-        if len(card) - 1 >= CLIENT:
-            client = str(card[CLIENT])
+        if len(card) - 1 >= COPYRIGHT:
+            client = str(card[COPYRIGHT])
 
     if client is not None:
         card_set += " " + client
-    text = "{}; TSSSF by Horrible People Games. Art by {}.".format(
-        card_set,
-        artist
-    )
+    if "TSSSF by Horrible People Games" in client:
+        text = client
+    else:
+        text = "{}; TSSSF by Horrible People Games. Art by {}.".format(
+            card_set,
+            artist
+        )
     PIL_Helper.AddText(
         image=image,
         text=text,
