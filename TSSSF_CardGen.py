@@ -155,7 +155,10 @@ Expansions = {
     "Ponycon 2015": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-ponynyc.png"),
     "Patreon": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-Patreon.png"),
     "Gameshow": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-gameshow.png"),
-    "BABScon": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-BABScon.png")
+    "BABScon": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-BABScon.png"),
+    "web-outline": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-web-circledark.png"),
+    "web-white": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-www.png"),
+    "web-grey": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-web-circlegrey.png")
 }
 
 ColorDict = {
