@@ -93,16 +93,16 @@ ArtMissing = [
 ]
 
 Frames = {
-    "START": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Start-bleed.png"),
-    "Warning": PIL_Helper.LoadImage(CardPath + "BLEED_Card - Warning.png"),
-    "Pony": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Pony-bleed.png"),
-    "Ship": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Ship-bleed.png"),
-    "Rules1": PIL_Helper.LoadImage(CardPath + "BLEED_Rules1.png"),
-    "Rules3": PIL_Helper.LoadImage(CardPath + "BLEED_Rules3.png"),
-    "Rules5": PIL_Helper.LoadImage(CardPath + "BLEED_Rules5.png"),
-    "Goal": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Goal-bleed.png"),
-    "Derpy": PIL_Helper.LoadImage(CardPath + "BLEED_Card - Derpy Hooves.png"),
-    "TestSubject": PIL_Helper.LoadImage(CardPath + "BLEED_Card - OverlayTest Subject Cheerilee.png")
+    "start": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Start-bleed.png"),
+    "warning": PIL_Helper.LoadImage(CardPath + "BLEED_Card - Warning.png"),
+    "pony": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Pony-bleed.png"),
+    "ship": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Ship-bleed.png"),
+    "rules1": PIL_Helper.LoadImage(CardPath + "BLEED_Rules1.png"),
+    "rules3": PIL_Helper.LoadImage(CardPath + "BLEED_Rules3.png"),
+    "rules5": PIL_Helper.LoadImage(CardPath + "BLEED_Rules5.png"),
+    "goal": PIL_Helper.LoadImage(BleedTemplatesPath + "BLEED-Blank-Goal-bleed.png"),
+    "derpy": PIL_Helper.LoadImage(CardPath + "BLEED_Card - Derpy Hooves.png"),
+    "testsubject": PIL_Helper.LoadImage(CardPath + "BLEED_Card - OverlayTest Subject Cheerilee.png")
 }
 
 Symbols = {
@@ -129,7 +129,7 @@ Symbols = {
     "3-4": PIL_Helper.LoadImage(SymbolsPath + "symbol-34.png"),
     "2-3": PIL_Helper.LoadImage(SymbolsPath + "symbol-23.png")
 }
-TIMELINE_SYMBOL_LIST = ["Dystopian"]
+TIMELINE_SYMBOL_LIST = ["dystopian"]
 
 Expansions = {
     "Everfree14": PIL_Helper.LoadImage(ExpansionIconsPath + "symbol-Everfree14.png"),
@@ -196,22 +196,22 @@ RulesDict = {
 }
 
 backs = {
-    "START": PIL_Helper.LoadImage(CardBacksPath + "Back-Start.png"),
-     "Pony": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
-     "Goal": PIL_Helper.LoadImage(CardBacksPath + "Back-Goals.png"),
-     "Ship": PIL_Helper.LoadImage(CardBacksPath + "Back-Ships.png"),
-     "Card": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
-     "Shipwrecker": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
-     "BLANK": PIL_Helper.LoadImage(CardBacksPath + "Blank - Intentionally Left Blank.png"),
-     "Rules1": PIL_Helper.LoadImage(CardPath + "Rules2.png"),
-     "Rules3": PIL_Helper.LoadImage(CardPath + "Rules4.png"),
-     "Rules5": PIL_Helper.LoadImage(CardPath + "Rules6.png"),
-     "TestSubject": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
-     "Warning": PIL_Helper.LoadImage(CardPath + "Card - Contact.png")
+    "start": PIL_Helper.LoadImage(CardBacksPath + "Back-Start.png"),
+    "pony": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
+    "goal": PIL_Helper.LoadImage(CardBacksPath + "Back-Goals.png"),
+    "ship": PIL_Helper.LoadImage(CardBacksPath + "Back-Ships.png"),
+    "card": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
+    "shipwrecker": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
+    "blank": PIL_Helper.LoadImage(CardBacksPath + "Blank - Intentionally Left Blank.png"),
+    "rules1": PIL_Helper.LoadImage(CardPath + "Rules2.png"),
+    "rules3": PIL_Helper.LoadImage(CardPath + "Rules4.png"),
+    "rules5": PIL_Helper.LoadImage(CardPath + "Rules6.png"),
+    "testsubject": PIL_Helper.LoadImage(CardBacksPath + "Back-Main.png"),
+    "warning": PIL_Helper.LoadImage(CardPath + "Card - Contact.png")
 }
 
-special_card_types = ["Rules1", "Rules3", "Rules5", "Warning", "Derpy", "Card"]
-special_cards_with_copyright = ["Derpy"]
+special_card_types = ["rules1", "rules3", "rules5", "warning", "derpy", "card"]
+special_cards_with_copyright = ["derpy"]
 
 
 def FixFileName(tagin):
@@ -304,26 +304,27 @@ def BuildCard(data):
 
 def BuildBack(data):
     if type(data).__name__ == 'dict':
-        card_type = data['type']
+        card_type = data['type'].lower()
     else:
         card = data.strip('\n').strip('\r').replace(r'\n', '\n').split('`')
-        card_type = card[TYPE]
+        card_type = card[TYPE].lower()
 
     return backs[card_type]
 
 
 def PickCardFunc(card_type, data):
-    if card_type == "START":
+    card_type = card_type.lower()
+    if card_type == "start":
         return MakeStartCard(data)
-    elif card_type == "Pony":
+    elif card_type == "pony":
         return MakePonyCard(data)
-    elif card_type == "Ship":
+    elif card_type == "ship":
         return MakeShipCard(data)
-    elif card_type == "Goal":
+    elif card_type == "goal":
         return MakeGoalCard(data)
-    elif card_type == "BLANK":
+    elif card_type == "blank":
         return MakeBlankCard()
-    elif card_type == "TestSubject":
+    elif card_type == "testsubject":
         return MakePonyCard(data)
     elif card_type in special_card_types:
         return MakeSpecialCard(data)
@@ -332,7 +333,7 @@ def PickCardFunc(card_type, data):
 
 
 def GetFrame(card_type):
-    return Frames[card_type].copy()
+    return Frames[card_type.lower()].copy()
 
 
 def AddCardArt(image, filename, anchor):
@@ -351,6 +352,7 @@ def AddCardArt(image, filename, anchor):
 
 
 def AddSymbols(image, symbols, card_type=""):
+    symbols = [x.lower() for x in symbols]
     # Remove any timeline symbols from the symbols list
     pruned_symbols = set(symbols) - set(TIMELINE_SYMBOL_LIST)
     if card_type == "Goal":
@@ -365,7 +367,7 @@ def AddSymbols(image, symbols, card_type=""):
             positions = [Anchors["Symbol1"], Anchors["Symbol2"]]
 
     for index, s in enumerate(symbols):
-        sym = Symbols.get(s.lower(), None)
+        sym = Symbols.get(s, None)
         if sym:
             if s in TIMELINE_SYMBOL_LIST:
                 image.paste(sym, Anchors["TimelineSymbol"], sym)
@@ -673,7 +675,7 @@ def MakeSpecialCard(card):
 def MakeSpecialCardJSON(data):
     print repr(data['picture'])
     image = GetFrame(data['picture'])
-    if data['picture'] in special_cards_with_copyright:
+    if data['picture'].lower() in special_cards_with_copyright:
         CopyrightText(data, image, ColorDict["Copyright"], data.get('artist', ARTIST))
     if Expansion_Icon is not None:
         AddExpansionJSON(image, Expansion_Icon)
@@ -683,7 +685,7 @@ def MakeSpecialCardJSON(data):
 def MakeSpecialCardPON(data):
     print repr(data[PICTURE])
     image = GetFrame(data[PICTURE])
-    if data[PICTURE] in special_cards_with_copyright:
+    if data[PICTURE].lower() in special_cards_with_copyright:
         CopyrightText(data, image, ColorDict["Copyright"], ARTIST)
     if len(data) > EXPANSION:
         AddExpansion(image, data[EXPANSION])
