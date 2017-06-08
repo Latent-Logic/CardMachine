@@ -26,6 +26,7 @@ SymbolsPath = ResourcePath + "/symbols/"
 ExpansionIconsPath = ResourcePath + "/expansion icons/"
 CardBacksPath = ResourcePath + "/card backs/"
 FontsPath = ResourcePath + "/fonts/"
+PlaceholderPath = ResourcePath + "/placeholder art/"
 
 VassalTemplatesPath = DIRECTORY + "/vassal templates/"
 VassalWorkspacePath = DIRECTORY + "/vassal workspace/"
@@ -85,13 +86,13 @@ Anchors = {
 }
 
 ArtMissing = [
-    PIL_Helper.LoadImage(CardPath + "artmissing01.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing02.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing03.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing04.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing05.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing06.png"),
-    PIL_Helper.LoadImage(CardPath + "artmissing07.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing01.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing02.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing03.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing04.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing05.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing06.png"),
+    PIL_Helper.LoadImage(PlaceholderPath + "artmissing07.png"),
 ]
 
 Frames = {
