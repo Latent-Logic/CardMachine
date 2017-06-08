@@ -113,6 +113,7 @@ Symbols = {
     "female": PIL_Helper.LoadImage(SymbolsPath + "Symbol-Female.png"),
     "malefemale": PIL_Helper.LoadImage(SymbolsPath + "Symbol-MaleFemale.png"),
     "earth pony": PIL_Helper.LoadImage(SymbolsPath + "Symbol-Earth-Pony.png"),
+    "earthpony": PIL_Helper.LoadImage(SymbolsPath + "Symbol-Earth-Pony.png"),
     "unicorn": PIL_Helper.LoadImage(SymbolsPath + "Symbol-Unicorn.png"),
     "uniearth": PIL_Helper.LoadImage(SymbolsPath + "symbol-uniearth.png"),
     "pegasus": PIL_Helper.LoadImage(SymbolsPath + "Symbol-Pegasus.png"),
