@@ -269,6 +269,13 @@ def SaveCard(filepath, image_to_save):
             filepath = "{}_{:>03}{}".format(basepath, i, extension)
     image_to_save.save(filepath, dpi=(300, 300))
 
+def BuildSingleCard(linein):
+    tags = linein.strip('\n').strip('\r').replace(r'\n', '\n').split('`')
+    im_bleed = PickCardFunc(tags[TYPE], tags)
+    im_crop = im_bleed.crop(croprect)
+    im_vassal = PIL_Helper.ResizeImage(im_crop, VASSAL_SCALE)
+
+    return (im_bleed, im_crop, im_vassal)
 
 def BuildCard(data):
     picture = None
