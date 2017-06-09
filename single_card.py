@@ -89,7 +89,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog="single_card.py")
 
     parser.add_argument('-c', '--card_line',
-                        help="Base64-encoded single-line card definition",
+                        help="Base64-encoded single-line PON card definition",
                         required=True)
     parser.add_argument('-o', '--output',
                         help="File to write card to",
