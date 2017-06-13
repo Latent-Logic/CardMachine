@@ -520,7 +520,7 @@ def CopyrightText(card, image, color, artist):
         client = card.get('client')
     else:
         if len(card) - 1 >= COPYRIGHT:
-            client = str(card[COPYRIGHT])
+            client = unicode(card[COPYRIGHT])
 
     if client is not None:
         card_set += " " + client

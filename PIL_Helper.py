@@ -108,7 +108,7 @@ def AddText(image, text, font, fill=(0,0,0), anchor=(0,0),
         # If current line is blank, just change y and skip to next
         if not line == "":
             if padline == True:
-                line = " {0} ".format(line)
+                line = u" {0} ".format(line)
             line_width, line_height = font.getsize(line)
             if halign == "left":
                 x_pos = start_x
